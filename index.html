@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>کلاس‌چین | مدرسه‌سازی شفاف با بلاکچین برای کودکان ایران</title>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card: #1e293b;
+            --primary: #6366f1;
+            --accent: #8b5cf6;
+            --success: #10b981;
+            --text: #f8fafc;
+            --muted: #94a3b8;
+            --light: #e2e8f0;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Vazirmatn', sans-serif; background:var(--bg); color:var(--text); line-height:1.7; overflow-x:hidden; }
+        
+        /* هدر */
+        header {
+            background: linear-gradient(rgba(15,23,42,0.9), rgba(15,23,42,0.95)), url('https://images.unsplash.com/photo-1498243691581-b145660463ae?ixlib=rb-4.0.3&auto=format&fit=crop&q=80') center/cover no-repeat;
+            height: 100vh;
+            min-height: 650px;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+        .overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(99,102,241,0.7) 0%, rgba(139,92,246,0.5) 100%);
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .hero-title {
+            font-size: 4.5rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(90deg, #c084fc, #818cf8, #60a5fa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1.2;
+        }
+        .hero-subtitle {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            color: #e0e7ff;
+            font-weight: 400;
+        }
+        .btn-primary {
+            background: linear-gradient(90deg, #10b981, #34d399);
+            color: white;
+            padding: 1.4rem 3rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 15px 35px rgba(16,185,129,0.4);
+            transition: all 0.4s;
+            margin: 1rem;
+        }
+        .btn-primary:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(16,185,129,0.6);
+        }
+        .btn-outline {
+            background: transparent;
+            color: white;
+            border: 2px solid #818cf8;
+            padding: 1.3rem 2.8rem;
+            font-size: 1.4rem;
+            border-radius: 50px;
+            margin: 1rem;
+        }
+        .btn-outline:hover {
+            background: #818cf8;
+        }
+
+        /* بخش‌های محتوایی */
+        section { padding: 100px 20px; text-align: center; }
+        .section-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            color: #e0e7ff;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .card {
+            background: var(--card);
+            padding: 2.5rem;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            border: 1px solid rgba(139,92,246,0.2);
+        }
+        .card i {
+            font-size: 4rem;
+            background: linear-gradient(90deg, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 1.5rem;
+        }
+
+        .stats {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            padding: 80px 20px;
+        }
+        .stat-item {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: #34d399;
+        }
+        .stat-label { font-size: 1.3rem; color: var(--muted); margin-top: 0.5rem; }
+
+        footer {
+            background: #0b1120;
+            padding: 60px 20px;
+            text-align: center;
+            border-top: 1px solid #334155;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="overlay"></div>
+    <div class="hero-content">
+        <h1 class="hero-title">هر کلاسی که می‌سازیم<br>آینده‌ای روشن‌تر برای ایران است</h1>
+        <p class="hero-subtitle">با کلاس‌چین، اولین پلتفرم شفاف مدرسه‌سازی با بلاکچین در ایران<br>هر ریال کمک شما، مستقیم به دست کودکان نیازمند می‌رسد</p>
+        <div style="margin-top: 3rem;">
+            <button class="btn-primary" onclick="document.getElementById('projects').scrollIntoView({behavior:'smooth'})">
+                همین الان یک مدرسه بسازیم
+            </button>
+            <button class="btn-outline" onclick="window.location.href='webgis.html'">
+                مشاهده نقشه پروژه‌ها
+            </button>
+        </div>
+    </div>
+</header>
+
+<section style="background:var(--card);">
+    <h2 class="section-title">چرا کلاس‌چین؟</h2>
+    <div class="grid">
+        <div class="card">
+            <i class="fas fa-shield-alt"></i>
+            <h3>۱۰۰٪ شفاف</h3>
+            <p>هر توکن، هر تراکنش، هر آجری که گذاشته می‌شود، روی بلاکچین ثبت می‌شود و قابل مشاهده برای همه است.</p>
+        </div>
+        <div class="card">
+            <i class="fas fa-heart"></i>
+            <h3>مستقیم به کودکان</h3>
+            <p>بدون واسطه، بدون کسر هزینه، بدون فساد. کمک شما مستقیم به پیمانکار و مدرسه می‌رسد.</p>
+        </div>
+        <div class="card">
+            <i class="fas fa-globe"></i>
+            <h3>مشارکت جهانی</h3>
+            <p>هر ایرانی در هر جای دنیا می‌تواند با یک کلیک، سهمی در ساختن ایران فردا داشته باشد.</p>
+        </div>
+    </div>
+</section>
+
+<section id="projects">
+    <h2 class="section-title">پروژه‌های در حال ساخت</h2>
+    <p style="font-size:1.5rem; color:#e0e7ff; max-width:900px; margin:0 auto 4rem;">
+        همین الان می‌توانید یکی از این مدارس را انتخاب کنید و با خرید توکن CLC، در ساخت آن سهیم شوید
+    </p>
+    <div class="grid">
+        <div class="card">
+            <h3>دبستان امید — سیستان و بلوچستان</h3>
+            <p>هدف: ۴۵۰ میلیون تومان</p>
+            <p>جمع‌شده: ۲۸۷ میلیون (۶۴٪)</p>
+            <div style="background:#334155; height:12px; border-radius:6px; margin:1rem 0;">
+                <div style="width:64%; background:linear-gradient(90deg,#10b981,#34d399); height:100%; border-radius:6px;"></div>
+            </div>
+            <button class="btn-primary" onclick="window.location.href='buy.html'">حمایت از این مدرسه</button>
+        </div>
+        <div class="card">
+            <h3>دبستان مهر — کردستان</h3>
+            <p>هدف: ۳۸۰ میلیون تومان</p>
+            <p>جمع‌شده: ۱۹۰ میلیون (۵۰٪)</p>
+            <div style="background:#334155; height:12px; border-radius:6px; margin:1rem 0;">
+                <div style="width:50%; background:linear-gradient(90deg,#f59e0b,#fbbf24); height:100%; border-radius:6px;"></div>
+            </div>
+            <button class="btn-primary" onclick="window.location.href='buy.html'">حمایت از این مدرسه</button>
+        </div>
+        <div class="card">
+            <h3>دبستان آینده — هرمزگان</h3>
+            <p>هدف: ۵۲۰ میلیون تومان</p>
+            <p>جمع‌شده: ۴۱ میلیون (۸٪)</p>
+            <div style="background:#334155; height:12px; border-radius:6px; margin:1rem 0;">
+                <div style="width:8%; background:linear-gradient(90deg,#ef4444,#f87171); height:100%; border-radius:6px;"></div>
+            </div>
+            <button class="btn-primary" onclick="window.location.href='buy.html'">حمایت از این مدرسه</button>
+        </div>
+    </div>
+</section>
+
+<section class="stats">
+    <div class="grid">
+        <div>
+            <div class="stat-item">۲۷</div>
+            <div class="stat-label">مدرسه ساخته‌شده</div>
+        </div>
+        <div>
+            <div class="stat-item">۸,۴۲۰</div>
+            <div class="stat-label">کودک تحت پوشش</div>
+        </div>
+        <div>
+            <div class="stat-item">۱۰۰٪</div>
+            <div class="stat-label">شفافیت مالی</div>
+        </div>
+        <div>
+            <div class="stat-item">+۶۲,۰۰۰</div>
+            <div class="stat-label">حامی در سراسر جهان</div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p style="font-size:1.4rem; margin-bottom:1rem;">کلاس‌چین — جایی که عشق به کودکان، با فناوری بلاکچین دیدار می‌کند</p>
+    <p style="color:#64748b;">تمامی حقوق برای تیم کلاس‌چین محفوظ است © ۱۴۰۴</p>
+</footer>
+
+</body>
+</html>
