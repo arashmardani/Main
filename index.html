@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ClassChain | Transparent School Building with Blockchain</title>
-    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;900&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <title>ClassChain | آینده کودکان ایران را با شفافیت بسازیم</title>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;900&family=Shabnam:wght@700;900&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <style>
         :root {
@@ -30,7 +30,27 @@
         }
         .en { font-family: 'Inter', sans-serif; }
 
-        /* بک‌گراند بلاکچین زنده */
+        /* نوار بالای صفحه با دختر ایرانی */
+        .top-banner {
+            height: 280px;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.8)), 
+                        url('https://images.unsplash.com/photo-1593113637276-2e1cd12b2d7c?w=1600&q=85&fit=crop') center/cover no-repeat;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 2rem;
+            z-index: 5;
+        }
+        .top-banner::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 100px;
+            background: linear-gradient(transparent, var(--bg));
+        }
+
+        /* بک‌گراند بلاکچین */
         #particles-js {
             position: fixed;
             width: 100%;
@@ -57,47 +77,72 @@
             text-align: center;
             position: relative;
             z-index: 5;
-            padding: 2rem;
+            padding: 4rem 2rem 6rem;
         }
         .hero-content {
             position: relative;
             z-index: 5;
-            max-width: 1100px;
+            max-width: 1200px;
         }
-        .hero-title {
-            font-size: 4.8rem;
+
+        /* تیتر فارسی با زیباترین فونت */
+        .hero-title-fa {
+            font-family: 'Shabnam', 'Vazirmatn', sans-serif;
+            font-size: 5.8rem;
             font-weight: 900;
             line-height: 1.1;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(120deg, #4cc9f0, #8b5cf6, #c084fc);
+            margin-bottom: 1rem;
+            background: linear-gradient(120deg, #4cc9f0, #8b5cf6, #c084fc, #ff8fa3);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            text-shadow: 0 0 40px rgba(140,92,246,0.5);
         }
+
+        /* تیتر انگلیسی با افکت سه‌بعدی نئون */
+        .hero-title-en {
+            font-family: 'Inter', sans-serif;
+            font-size: 4.2rem;
+            font-weight: 800;
+            line-height: 1.2;
+            color: #4cc9f0;
+            text-shadow: 
+                0 0 10px #4cc9f0,
+                0 0 20px #4cc9f0,
+                0 0 40px #4cc9f0,
+                0 0 80px #4cc9f0,
+                3px 3px 0 #7209b7,
+                -3px -3px 0 #ff006e;
+            letter-spacing: 2px;
+            margin: 1.5rem 0;
+        }
+
         .hero-subtitle {
             font-size: 1.9rem;
             color: #cbd5e1;
-            max-width: 800px;
-            margin: 0 auto 3rem;
+            max-width: 900px;
+            margin: 2.5rem auto 3.5rem;
             font-weight: 300;
+            line-height: 1.8;
         }
+
         .btn {
-            padding: 1.2rem 3rem;
-            font-size: 1.4rem;
+            padding: 1.4rem 3.5rem;
+            font-size: 1.5rem;
             font-weight: 700;
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.4s;
-            margin: 0.8rem;
+            margin: 1rem;
             display: inline-block;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
         }
         .btn-primary {
             background: linear-gradient(135deg, #10b981, #34d399);
             color: white;
             border: none;
         }
-        .btn-primary:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(16,185,129,0.5); }
+        .btn-primary:hover { transform: translateY(-8px); box-shadow: 0 25px 60px rgba(16,185,129,0.6); }
         .btn-outline {
             background: transparent;
             color: #e2e8f0;
@@ -110,23 +155,23 @@
             top: 30px;
             left: 30px;
             z-index: 10;
-            background: rgba(17,24,39,0.8);
+            background: rgba(17,24,39,0.9);
             padding: 0.6rem 1.2rem;
             border-radius: 50px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(139,92,246,0.3);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(139,92,246,0.4);
         }
         .lang-switch button {
             background: none;
             border: none;
             color: #94a3b8;
             font-weight: 600;
-            padding: 0.4rem 0.8rem;
+            padding: 0.4rem 0.9rem;
             cursor: pointer;
         }
         .lang-switch button.active {
             color: #8b5cf6;
-            background: rgba(139,92,246,0.2);
+            background: rgba(139,92,246,0.3);
             border-radius: 30px;
         }
 
@@ -136,10 +181,11 @@
             font-weight: 800;
             margin-bottom: 4rem;
             color: #e2e8f0;
+            font-family: 'Shabnam', sans-serif;
         }
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
             gap: 2.5rem;
             max-width: 1300px;
             margin: 0 auto;
@@ -147,38 +193,50 @@
         .card {
             background: var(--card);
             padding: 3rem 2rem;
-            border-radius: 24px;
+            border-radius: 28px;
             border: 1px solid var(--border);
-            transition: all 0.4s;
+            transition: all 0.5s;
+            backdrop-filter: blur(10px);
         }
-        .card:hover { transform: translateY(-12px); box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
-        .card h3 { font-size: 1.8rem; margin: 1.5rem 0; color: #a78bfa; }
+        .card:hover { 
+            transform: translateY(-15px); 
+            box-shadow: 0 25px 50px rgba(139,92,246,0.2);
+            border-color: rgba(139,92,246,0.5);
+        }
+        .card h3 { 
+            font-size: 1.9rem; 
+            margin: 1.5rem 0; 
+            color: #a78bfa; 
+            font-family: 'Shabnam', sans-serif;
+        }
         .progress {
-            height: 12px;
+            height: 14px;
             background: #1f2937;
-            border-radius: 6px;
+            border-radius: 7px;
             overflow: hidden;
             margin: 1.5rem 0;
         }
         .progress-bar {
             height: 100%;
             background: linear-gradient(90deg, #10b981, #34d399);
-            border-radius: 6px;
-            transition: width 2s ease;
+            border-radius: 7px;
         }
 
         footer {
-            padding: 100px 20px;
+            padding: 120px 20px;
             text-align: center;
             border-top: 1px solid #1f2937;
             color: #64748b;
             position: relative;
             z-index: 5;
-            font-size: 1.3rem;
+            font-size: 1.4rem;
+            font-family: 'Shabnam', sans-serif;
         }
     </style>
 </head>
 <body>
+
+<div class="top-banner"></div>
 
 <div id="particles-js"></div>
 <div class="hexagon-grid"></div>
@@ -190,36 +248,36 @@
 
 <header>
     <div class="hero-content">
-        <h1 class="hero-title" data-fa="هر کودکی شایسته‌ی کلاس امن است" data-en="Every Child Deserves a Safe Classroom"></h1>
+        <h1 class="hero-title-fa" data-fa="هر کودکی شایسته‌ی کلاس امن است">هر کودکی شایسته‌ی کلاس امن است</h1>
+        <h2 class="hero-title-en" data-en="Every Child Deserves a Safe Classroom">Every Child Deserves a Safe Classroom</h2>
+        
         <p class="hero-subtitle" data-fa="کلاس‌چین اولین پلتفرم شفاف مدرسه‌سازی با بلاکچین در جهان است.<br>هر کمک شما مستقیم و قابل ردیابی به کودکان نیازمند می‌رسد."
                             data-en="ClassChain is the world's first fully transparent school-building platform on blockchain.<br>Every donation is direct, trackable, and reaches children in need."></p>
+        
         <div>
-            <a href="#projects" class="btn btn-primary" data-fa="حمایت از یک مدرسه" data-en="Support a School"></a>
-            <a href="webgis.html" class="btn btn-outline" data-fa="نقشه زنده پروژه‌ها" data-en="Live Project Map"></a>
+            <a href="#projects" class="btn btn-primary" data-fa="حمایت از یک مدرسه" data-en="Support a School">حمایت از یک مدرسه</a>
+            <a href="webgis.html" class="btn btn-outline" data-fa="نقشه زنده پروژه‌ها" data-en="Live Project Map">نقشه زنده پروژه‌ها</a>
         </div>
     </div>
 </header>
 
 <section id="projects">
-    <h2 class="section-title" data-fa="پروژه‌های در حال ساخت" data-en="Active School Projects"></h2>
+    <h2 class="section-title" data-fa="پروژه‌های در حال ساخت" data-en="Active School Projects">پروژه‌های در حال ساخت</h2>
     <div class="grid">
         <div class="card">
-            <h3>Sistan & Baluchestan</h3>
-            <p data-fa="دبستان امید — زاهدان">Omid Primary School — Zahedan</p>
+            <h3 data-fa="دبستان امید — سیستان و بلوچستان">Omid Primary School — Sistan & Baluchestan</h3>
             <div class="progress"><div class="progress-bar" style="width:68%"></div></div>
             <p><strong>68%</strong> — ۳۱۰ میلیون از ۴۵۰ میلیون</p>
             <a href="buy.html" class="btn btn-primary" style="margin-top:1.5rem;">Donate Now</a>
         </div>
         <div class="card">
-            <h3>Kurdistan</h3>
-            <p data-fa="دبستان مهر — سنندج">Mehr Primary School — Sanandaj</p>
+            <h3 data-fa="دبستان مهر — کردستان">Mehr Primary School — Kurdistan</h3>
             <div class="progress"><div class="progress-bar" style="width:52%"></div></div>
             <p><strong>52%</strong> — ۱۹۸ میلیون از ۳۸۰ میلیون</p>
             <a href="buy.html" class="btn btn-primary" style="margin-top:1.5rem;">Donate Now</a>
         </div>
         <div class="card">
-            <h3>Hormozgan</h3>
-            <p data-fa="دبستان آینده — بندرعباس">Ayandeh School — Bandar Abbas</p>
+            <h3 data-fa="دبستان آینده — هرمزگان">Ayandeh School — Hormozgan</h3>
             <div class="progress"><div class="progress-bar" style="width:15%"></div></div>
             <p><strong>15%</strong> — ۷۸ میلیون از ۵۲۰ میلیون</p>
             <a href="buy.html" class="btn btn-primary" style="margin-top:1.5rem;">Donate Now</a>
@@ -228,27 +286,28 @@
 </section>
 
 <footer>
-    <p data-fa="کلاس‌چین — آینده آموزش ایران را با هم بسازیم" data-en="ClassChain — Building Tomorrow's Iran, Together"></p>
-    <p style="margin-top:1rem;">© 2025 ClassChain Foundation. All rights reserved.</p>
+    <p data-fa="کلاس‌چین — آینده آموزش ایران را با هم بسازیم" data-en="ClassChain — Building Tomorrow's Iran, Together">
+        کلاس‌چین — آینده آموزش ایران را با هم بسازیم
+    </p>
+    <p style="margin-top:1rem;">© 2025 ClassChain Foundation • All rights reserved</p>
 </footer>
 
 <script>
-// Particles بلاکچین
 particlesJS("particles-js", {
     "particles": {
         "number": { "value": 100 },
-        "color": { "value": ["#4cc9f0", "#8b5cf6", "#7209b7"] },
+        "color": { "value": ["#4cc9f0", "#8b5cf6", "#c084fc"] },
         "shape": { "type": "circle" },
         "opacity": { "value": 0.6, "random": true },
         "size": { "value": 3, "random": true },
         "line_linked": {
             "enable": true,
-            "distance": 140,
+            "distance": 150,
             "color": "#6366f1",
             "opacity": 0.3,
             "width": 1
         },
-        "move": { "enable": true, "speed": 1.5 }
+        "move": { "enable": true, "speed": 1.8 }
     },
     "interactivity": {
         "events": { "onhover": { "enable": true, "mode": "repulse" } }
