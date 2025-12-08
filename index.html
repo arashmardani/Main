@@ -9,30 +9,22 @@
     <style>
         :root {
             --bg: #0a0e17;
-            --card: #111827;
-            --border: #1f2937;
             --primary: #8b5cf6;
-            --accent: #a78bfa;
             --success: #10b981;
             --text: #f1f5f9;
-            --muted: #94a3b8;
         }
         * { margin:0; padding:0; box-sizing:border-box; }
         body { 
             font-family: 'Vazirmatn', sans-serif; 
             background: var(--bg); 
             color: var(--text); 
-            line-height: 1.8; 
             overflow-x: hidden;
             position: relative;
         }
-        ..en { font-family: 'Inter', sans-serif; }
 
-        /* بک‌گراند بلاکچین زنده */
         #particles-js {
             position: fixed;
-            width: 100%;
-            height: 100%;
+            width: 100%; height: 100%;
             top: 0; left: 0; z-index: 1;
         }
         .hexagon-grid {
@@ -47,17 +39,6 @@
             pointer-events: none;
         }
 
-        /* فقط یک نوار تیره زیر تیتر */
-        .dark-strip {
-            height: 250px;
-            background: linear-gradient(to bottom, rgba(10,14,23,0.95), #0a0e17);
-            border-top: 3px solid #10b981;
-            border-bottom: 3px solid #8b5cf6;
-            margin: 6rem 0;
-            position: relative;
-            z-index: 5;
-        }
-
         header {
             min-height: 100vh;
             display: flex;
@@ -70,51 +51,76 @@
         }
         .hero-content {
             position: relative;
-            z-index: 5;
-            max-width: 1100px;
+            max-width: 1300px;
         }
+
+        /* نوار تیره فقط پشت تیتر اصلی — عرض ۱۰۰٪ صفحه، ارتفاع دقیقاً متناسب با تیتر */
+        .title-backdrop {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            transform: translateY(-50%);
+            height: 140px;                    /* دقیقاً اندازه تیتر */
+            background: linear-gradient(90deg, 
+                rgba(17,24,39,0.98) 0%, 
+                rgba(31,41,55,0.95) 50%, 
+                rgba(17,24,39,0.98) 100%);
+            border-top: 3px solid #10b981;
+            border-bottom: 3px solid #8b5cf6;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.8);
+            z-index: -1;
+        }
+
         .hero-title {
-            font-size: 5.2rem;
+            font-size: 6.2rem;
             font-weight: 900;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(120deg, #4cc9f0, #8b5cf6, #c084fc);
+            line-height: 1.2;
+            background: linear-gradient(120deg, #4cc9f0, #8b5cf6, #c084fc, #34d399);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            text-shadow: 0 0 30px rgba(140,92,246,0.4);
+            text-shadow: 0 0 40px rgba(140,92,246,0.6);
+            position: relative;
+            z-index: 6;
+            padding: 0 2rem;
         }
+
         .hero-subtitle {
-            font-size: 1.9rem;
+            font-size: 2rem;
             color: #cbd5e1;
             max-width: 900px;
-            margin: 0 auto 4rem;
+            margin: 5rem auto 4rem;
             font-weight: 300;
             line-height: 1.9;
+            position: relative;
+            z-index: 6;
         }
+
         .btn {
-            padding: 1.4rem 3.5rem;
-            font-size: 1.5rem;
+            padding: 1.5rem 4rem;
+            font-size: 1.6rem;
             font-weight: 700;
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.4s;
-            margin: 1rem;
-            display: inline-block;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+            margin: 1.5rem;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+            position: relative;
+            z-index: 6;
         }
         .btn-primary {
             background: linear-gradient(135deg, #10b981, #34d399);
             color: white;
             border: none;
         }
-        .btn-primary:hover { transform: translateY(-8px); box-shadow: 0 25px 60px rgba(16,185,129,0.6); }
+        .btn-primary:hover { transform: translateY(-10px); }
         .btn-outline {
             background: transparent;
             color: #e2e8f0;
             border: 2px solid #6366f1;
         }
-        .btn-outline:hover { background: #6366f1; border-color: #6366f1; }
+        .btn-outline:hover { background: #6366f1; }
 
         .lang-switch {
             position: absolute;
@@ -146,8 +152,6 @@
             text-align: center;
             color: #64748b;
             font-size: 1.4rem;
-            position: relative;
-            z-index: 5;
         }
     </style>
 </head>
@@ -163,16 +167,18 @@
 
 <header>
     <div class="hero-content">
+
+        <!-- نوار تیره فقط پشت تیتر — عرض کامل صفحه، ارتفاع دقیقاً متناسب -->
+        <div class="title-backdrop"></div>
+
         <h1 class="hero-title" data-fa="هر کودکی شایسته‌ی کلاس امن است" data-en="Every Child Deserves a Safe Classroom">
             هر کودکی شایسته‌ی کلاس امن است
         </h1>
+
         <p class="hero-subtitle" data-fa="کلاس‌چین اولین پلتفرم شفاف مدرسه‌سازی با بلاکچین در جهان است.<br>هر کمک شما مستقیم و قابل ردیابی به کودکان نیازمند می‌رسد."
                             data-en="ClassChain is the world's first fully transparent school-building platform on blockchain.<br>Every donation is direct, trackable, and reaches children in need.">
             کلاس‌چین اولین پلتفرم شفاف مدرسه‌سازی با بلاکچین در جهان است.<br>هر کمک شما مستقیم و قابل ردیابی به کودکان نیازمند می‌رسد.
         </p>
-
-        <!-- فقط یک نوار تیره زیر تیتر -->
-        <div class="dark-strip"></div>
 
         <div>
             <a href="webgis.html" class="btn btn-primary" data-fa="مشاهده نقشه پروژه‌ها" data-en="View Project Map">
@@ -186,10 +192,10 @@
 </header>
 
 <footer>
-    <p data-fa="کلاس‌چین — آینده آموزش ایران را با هم بسازیم" data-en="ClassChain — Building Tomorrow's Iran, Together">
+    <p data-fa="کلاس‌چین — آینده آموزش ایران را با هم بسازیم">
         کلاس‌چین — آینده آموزش ایران را با هم بسازیم
     </p>
-    <p style="margin-top:1rem;">© 2025 ClassChain Foundation • All rights reserved</p>
+    <p style="margin-top:1rem;">© 2025 ClassChain Foundation</p>
 </footer>
 
 <script>
@@ -197,21 +203,12 @@ particlesJS("particles-js", {
     "particles": {
         "number": { "value": 100 },
         "color": { "value": ["#4cc9f0", "#8b5cf6", "#c084fc"] },
-        "shape": { "type": "circle" },
-        "opacity": { "value": 0.6, "random": true },
-        "size": { "value": 3, "random": true },
-        "line_linked": {
-            "enable": true,
-            "distance": 150,
-            "color": "#6366f1",
-            "opacity": 0.3,
-            "width": 1
-        },
+        "opacity": { "value": 0.6 },
+        "size": { "value": 3 },
+        "line_linked": { "enable": true, "distance": 150, "color": "#6366f1", "opacity": 0.3, "width": 1 },
         "move": { "enable": true, "speed": 1.6 }
     },
-    "interactivity": {
-        "events": { "onhover": { "enable": true, "mode": "repulse" } }
-    }
+    "interactivity": { "events": { "onhover": { "enable": true, "mode": "repulse" } } }
 });
 
 function setLang(lang) {
