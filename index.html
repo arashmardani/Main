@@ -59,6 +59,23 @@
             z-index: 5;
             padding: 2rem;
         }
+        /* نوار تیره فقط پشت تیتر اصلی — عرض ۱۰۰٪ صفحه، ارتفاع دقیقاً متناسب با تیتر */
+        .title-backdrop {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            transform: translateY(-50%);
+            height: 250px;                    /* دقیقاً اندازه تیتر */
+            background: linear-gradient(90deg, 
+                rgba(17,24,39,0.98) 0%, 
+                rgba(31,41,55,0.95) 50%, 
+                rgba(17,24,39,0.98) 100%);
+            border-top: 3px solid #10b981;
+            border-bottom: 3px solid #8b5cf6;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.8);
+            z-index: -1;
+        }
         .hero-content {
             position: relative;
             z-index: 5;
@@ -269,3 +286,4 @@ function setLang(lang) {
 
 </body>
 </html>
+
