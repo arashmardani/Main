@@ -56,18 +56,17 @@
             justify-content: center;
             text-align: center;
             position: relative;
-            z-index: 5;  /* اضافه شد تا روی بک‌گراند بماند */
+            z-index: 5;
             padding: 2rem;
         }
-
-        /* فقط اصلاح این بخش → z-index از -1 شد 5 */
+        /* نوار تیره فقط پشت تیتر اصلی — عرض ۱۰۰٪ صفحه، ارتفاع دقیقاً متناسب با تیتر */
         .title-backdrop {
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             transform: translateY(-50%);
-            height: 250px;
+            height: 250px;                    /* دقیقاً اندازه تیتر */
             background: linear-gradient(90deg, 
                 rgba(17,24,39,0.98) 0%, 
                 rgba(31,41,55,0.95) 50%, 
@@ -75,12 +74,11 @@
             border-top: 3px solid #10b981;
             border-bottom: 3px solid #8b5cf6;
             box-shadow: 0 15px 40px rgba(0,0,0,0.8);
-            z-index: 5; /* این خط تنها اصلاح اصلی است */
+            z-index: -1;
         }
-
         .hero-content {
             position: relative;
-            z-index: 6;
+            z-index: 5;
             max-width: 1100px;
         }
         .hero-title {
@@ -157,4 +155,135 @@
             color: #e2e8f0;
         }
         .grid {
-            displ
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+        .card {
+            background: var(--card);
+            padding: 3rem 2rem;
+            border-radius: 24px;
+            border: 1px solid var(--border);
+            transition: all 0.4s;
+        }
+        .card:hover { transform: translateY(-12px); box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
+        .card h3 { font-size: 1.8rem; margin: 1.5rem 0; color: #a78bfa; }
+        .progress {
+            height: 12px;
+            background: #1f2937;
+            border-radius: 6px;
+            overflow: hidden;
+            margin: 1.5rem 0;
+        }
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981, #34d399);
+            border-radius: 6px;
+            transition: width 2s ease;
+        }
+
+        footer {
+            padding: 100px 20px;
+            text-align: center;
+            border-top: 1px solid #1f2937;
+            color: #64748b;
+            position: relative;
+            z-index: 5;
+            font-size: 1.3rem;
+        }
+    </style>
+</head>
+<body>
+
+<div id="particles-js"></div>
+<div class="hexagon-grid"></div>
+
+<div class="lang-switch">
+    <button class="active" onclick="setLang('fa')">فارسی</button>
+    <button onclick="setLang('en')">English</button>
+</div>
+
+<header>
+    <div class="hero-content">
+        <h1 class="hero-title" data-fa="هر کودکی شایسته‌ی کلاس امن است" data-en="Every Child Deserves a Safe Classroom"></h1>
+        <p class="hero-subtitle" data-fa="کلاس‌چین اولین پلتفرم شفاف مدرسه‌سازی با بلاکچین در جهان است.<br>هر کمک شما مستقیم و قابل ردیابی به کودکان نیازمند می‌رسد."
+                            data-en="ClassChain is the world's first fully transparent school-building platform on blockchain.<br>Every donation is direct, trackable, and reaches children in need."></p>
+        <div>
+            <a href="#projects" class="btn btn-primary" data-fa="حمایت از یک مدرسه" data-en="Support a School"></a>
+            <a href="webgis.html" class="btn btn-outline" data-fa="نقشه زنده پروژه‌ها" data-en="Live Project Map"></a>
+        </div>
+    </div>
+</header>
+
+<section id="projects">
+    <h2 class="section-title" data-fa="پروژه‌های در حال ساخت" data-en="Active School Projects"></h2>
+    <div class="grid">
+        <div class="card">
+            <h3>Sistan & Baluchestan</h3>
+            <p data-fa="دبستان امید — زاهدان">Omid Primary School — Zahedan</p>
+            <div class="progress"><div class="progress-bar" style="width:68%"></div></div>
+            <p><strong>68%</strong> — ۳۱۰ میلیون از ۴۵۰ میلیون</p>
+            <a href="buy.html" class="btn btn-primary" style="margin-top:1.5rem;">Donate Now</a>
+        </div>
+        <div class="card">
+            <h3>Kurdistan</h3>
+            <p data-fa="دبستان مهر — سنندج">Mehr Primary School — Sanandaj</p>
+            <div class="progress"><div class="progress-bar" style="width:52%"></div></div>
+            <p><strong>52%</strong> — ۱۹۸ میلیون از ۳۸۰ میلیون</p>
+            <a href="buy.html" class="btn btn-primary" style="margin-top:1.5rem;">Donate Now</a>
+        </div>
+        <div class="card">
+            <h3>Hormozgan</h3>
+            <p data-fa="دبستان آینده — بندرعباس">Ayandeh School — Bandar Abbas</p>
+            <div class="progress"><div class="progress-bar" style="width:15%"></div></div>
+            <p><strong>15%</strong> — ۷۸ میلیون از ۵۲۰ میلیون</p>
+            <a href="buy.html" class="btn btn-primary" style="margin-top:1.5rem;">Donate Now</a>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p data-fa="کلاس‌چین — آینده آموزش ایران را با هم بسازیم" data-en="ClassChain — Building Tomorrow's Iran, Together"></p>
+    <p style="margin-top:1rem;">© 2025 ClassChain Foundation. All rights reserved.</p>
+</footer>
+
+<script>
+// Particles بلاکچین
+particlesJS("particles-js", {
+    "particles": {
+        "number": { "value": 100 },
+        "color": { "value": ["#4cc9f0", "#8b5cf6", "#7209b7"] },
+        "shape": { "type": "circle" },
+        "opacity": { "value": 0.6, "random": true },
+        "size": { "value": 3, "random": true },
+        "line_linked": {
+            "enable": true,
+            "distance": 140,
+            "color": "#6366f1",
+            "opacity": 0.3,
+            "width": 1
+        },
+        "move": { "enable": true, "speed": 1.5 }
+    },
+    "interactivity": {
+        "events": { "onhover": { "enable": true, "mode": "repulse" } }
+    }
+});
+
+function setLang(lang) {
+    document.querySelectorAll('[data-fa]').forEach(el => {
+        el.textContent = lang === 'fa' ? el.dataset.fa : el.dataset.en;
+    });
+    document.documentElement.dir = lang === 'fa' ? 'rtl' : 'ltr';
+    document.documentElement.lang = lang === 'fa' ? 'fa' : 'en';
+    document.body.classList.toggle('en', lang === 'en');
+    document.querySelectorAll('.lang-switch button').forEach(b => b.classList.remove('active'));
+    document.querySelector(`.lang-switch button[onclick="setLang('${lang}')"]`).classList.add('active');
+}
+</script>
+
+</body>
+</html>
+
