@@ -59,28 +59,34 @@
             z-index: 5;
             padding: 2rem;
         }
-        /* نوار تیره فقط پشت تیتر اصلی — عرض ۱۰۰٪ صفحه، ارتفاع دقیقاً متناسب با تیتر */
-        .title-backdrop {
+
+        /* نوار تیره فقط پشت تیتر اصلی — دقیقاً همان چیزی که خواستی */
+        .hero-content::before {
+            content: "";
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            transform: translateY(-50%);
-            height: 250px;                    /* دقیقاً اندازه تیتر */
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100vw;
+            height: 280px; /* تنظیم کن اگر تیتر خیلی بزرگ/کوچک شد */
             background: linear-gradient(90deg, 
                 rgba(17,24,39,0.98) 0%, 
-                rgba(31,41,55,0.95) 50%, 
+                rgba(31,41,55,0.98) 50%, 
                 rgba(17,24,39,0.98) 100%);
-            border-top: 3px solid #10b981;
-            border-bottom: 3px solid #8b5cf6;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.8);
+            border-top: 4px solid #10b981;
+            border-bottom: 4px solid #8b5cf6;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
             z-index: -1;
+            border-radius: 24px;
+            pointer-events: none;
         }
+
         .hero-content {
             position: relative;
             z-index: 5;
             max-width: 1100px;
         }
+
         .hero-title {
             font-size: 4.8rem;
             font-weight: 900;
@@ -90,7 +96,11 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
         }
+
         .hero-subtitle {
             font-size: 1.9rem;
             color: #cbd5e1;
@@ -98,6 +108,7 @@
             margin: 0 auto 3rem;
             font-weight: 300;
         }
+
         .btn {
             padding: 1.2rem 3rem;
             font-size: 1.4rem;
@@ -193,6 +204,16 @@
             z-index: 5;
             font-size: 1.3rem;
         }
+
+        /* ریسپانسیو بودن تیتر در موبایل */
+        @media (max-width: 768px) {
+            .hero-title { font-size: 3.4rem; }
+            .hero-content::before { height: 220px; }
+        }
+        @media (max-width: 480px) {
+            .hero-title { font-size: 2.8rem; }
+            .hero-content::before { height: 190px; border-radius: 16px; }
+        }
     </style>
 </head>
 <body>
@@ -286,4 +307,3 @@ function setLang(lang) {
 
 </body>
 </html>
-
