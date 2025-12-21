@@ -16,6 +16,36 @@ const selectedProjectIcon = L.divIcon({
     iconAnchor: [12,12]
 });
 
+function esriToGeoJSON(esriData, geomType = "Polygon") {
+    const geojson = { type: "FeatureCollection", features: [] };
+    esriData.features.forEach(feat => {
+        const attrs = feat.attributes || feat.properties || {};
+        const geom = feat.geometry;
+        let geometry = null;
+
+        if (geomType === "Point" && geom && geom.x !== undefined && geom.y !== undefined) {
+            geometry = {
+                type: "Point",
+                coordinates: [geom.x, geom.y]
+            };
+        } else if (geom && geom.rings) {
+            geometry = {
+                type: "Polygon",
+                coordinates: geom.rings
+            };
+        }
+
+        if (geometry) {
+            geojson.features.push({
+                type: "Feature",
+                properties: attrs,
+                geometry: geometry
+            });
+        }
+    });
+    return geojson;
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
     map = L.map('map').setView([32.4279, 53.6880], 5);
 
@@ -36,70 +66,78 @@ document.addEventListener("DOMContentLoaded", async () => {
         currentBasemap.addTo(map);
     });
 
-    // لود داده‌ها
-    const [provincesResp, countiesResp, projectsResp] = await Promise.all([
-        fetch('ir-new.json'),
-        fetch('counties.json'),
-        fetch('Projects.json')
-    ]);
+    try {
+        const [provincesResp, countiesResp, projectsResp] = await Promise.all([
+            fetch('data/ir-new.json'),
+            fetch('data/counties.json'),
+            fetch('data/Projects.json')
+        ]);
 
-    if (!provincesResp.ok || !countiesResp.ok || !projectsResp.ok) {
-        showInPanel('<p style="color:red;">خطا در بارگذاری داده‌ها. مسیر فایل‌ها را چک کنید.</p>');
-        return;
+        if (!provincesResp.ok || !countiesResp.ok || !projectsResp.ok) {
+            throw new Error("خطا در بارگذاری فایل‌ها");
+        }
+
+        const provincesEsri = await provincesResp.json();
+        const countiesEsri = await countiesResp.json();
+        const projectsEsri = await projectsResp.json();
+
+        // تبدیل به GeoJSON استاندارد
+        const provincesGeo = esriToGeoJSON(provincesEsri, "Polygon");
+        const countiesGeo = esriToGeoJSON(countiesEsri, "Polygon");
+        const projectsGeo = esriToGeoJSON(projectsEsri, "Point");
+
+        // لایه استان‌ها
+        provincesLayer = L.geoJSON(provincesGeo, {
+            style: { fillColor: '#3498db', weight: 2, opacity: 1, color: 'white', fillOpacity: 0.3 },
+            onEachFeature: (feature, layer) => {
+                layer.on('click', () => onProvinceClick(feature, layer));
+            }
+        }).addTo(map);
+
+        // لایه شهرستان‌ها
+        countiesLayer = L.geoJSON(countiesGeo, {
+            style: { fillColor: '#e67e22', weight: 1.5, opacity: 1, color: 'white', fillOpacity: 0.4 },
+            onEachFeature: (feature, layer) => {
+                layer.on('click', () => onCountyClick(feature, layer));
+            }
+        });
+
+        // لایه پروژه‌ها
+        projectsLayer = L.geoJSON(projectsGeo, {
+            pointToLayer: (feature, latlng) => L.marker(latlng, { icon: projectIcon }),
+            onEachFeature: (feature, layer) => {
+                layer.on('click', () => onProjectClick(feature, layer));
+            }
+        }).addTo(map);
+
+        // کنترل موبایل
+        const panel = document.getElementById('infoPanel');
+        const fab = document.getElementById('fabToggle');
+        fab.addEventListener('click', () => {
+            panel.classList.toggle('open');
+            fab.textContent = panel.classList.contains('open') ? '✕' : 'ℹ️';
+        });
+
+        document.getElementById('zoomIranBtn').addEventListener('click', zoomToIran);
+
+        zoomToIran(); // اولیه
+
+    } catch (err) {
+        console.error(err);
+        showInPanel('<p style="color:red;text-align:center;">خطا در بارگذاری نقشه: ' + err.message + '<br>مسیر data/ را چک کنید.</p>');
     }
-
-    const provinces = await provincesResp.json();
-    const counties = await countiesResp.json();
-    const projects = await projectsResp.json();
-
-    // لایه استان‌ها
-    provincesLayer = L.geoJSON(provinces, {
-        style: { fillColor: '#3498db', weight: 2, opacity: 1, color: 'white', fillOpacity: 0.3 },
-        onEachFeature: (feature, layer) => {
-            layer.on('click', () => onProvinceClick(feature, layer));
-        }
-    }).addTo(map);
-
-    // لایه شهرستان‌ها (ابتدا اضافه نمی‌شه)
-    countiesLayer = L.geoJSON(counties, {
-        style: { fillColor: '#e67e22', weight: 1.5, opacity: 1, color: 'white', fillOpacity: 0.4 },
-        onEachFeature: (feature, layer) => {
-            layer.on('click', () => onCountyClick(feature, layer));
-        }
-    });
-
-    // لایه پروژه‌ها
-    projectsLayer = L.geoJSON(projects, {
-        pointToLayer: (feature, latlng) => L.marker(latlng, { icon: projectIcon }),
-        onEachFeature: (feature, layer) => {
-            layer.on('click', () => onProjectClick(feature, layer));
-        }
-    }).addTo(map);
-
-    // کنترل پنل موبایل
-    const panel = document.getElementById('infoPanel');
-    const fab = document.getElementById('fabToggle');
-    fab.addEventListener('click', () => {
-        panel.classList.toggle('open');
-        fab.textContent = panel.classList.contains('open') ? '✕' : 'ℹ️';
-    });
-
-    document.getElementById('zoomIranBtn').addEventListener('click', zoomToIran);
-
-    // نمایش اولیه
-    zoomToIran();
 });
 
 function onProvinceClick(feature, layer) {
     if (selectedLayer) provincesLayer.resetStyle(selectedLayer);
-    if (selectedCountyLayer && countiesLayer.hasLayer(selectedCountyLayer)) countiesLayer.resetStyle(selectedCountyLayer);
+    if (selectedCountyLayer && map.hasLayer(countiesLayer)) countiesLayer.resetStyle(selectedCountyLayer);
     if (selectedProjectMarker) selectedProjectMarker.setIcon(projectIcon);
     if (map.hasLayer(countiesLayer)) map.removeLayer(countiesLayer);
 
     layer.setStyle({ fillOpacity: 0.7, weight: 4 });
     selectedLayer = layer;
 
-    const p = feature.properties || feature.attributes || {};
+    const p = feature.properties;
     showInPanel(`
         <div class="accordion-section">
             <div class="accordion-title" data-key="accordion_province">اطلاعات استان</div>
@@ -125,7 +163,7 @@ function onCountyClick(feature, layer) {
     layer.setStyle({ fillOpacity: 0.7, weight: 3 });
     selectedCountyLayer = layer;
 
-    const c = feature.properties || feature.attributes || {};
+    const c = feature.properties;
     showInPanel(`
         <div class="accordion-section">
             <div class="accordion-title" data-key="accordion_county">اطلاعات شهرستان</div>
@@ -143,31 +181,31 @@ function onCountyClick(feature, layer) {
 
 function onProjectClick(feature, layer) {
     if (selectedLayer) provincesLayer.resetStyle(selectedLayer);
-    if (selectedCountyLayer && countiesLayer.hasLayer(selectedCountyLayer)) countiesLayer.resetStyle(selectedCountyLayer);
+    if (selectedCountyLayer && map.hasLayer(countiesLayer)) countiesLayer.resetStyle(selectedCountyLayer);
     if (selectedProjectMarker) selectedProjectMarker.setIcon(projectIcon);
     if (map.hasLayer(countiesLayer)) map.removeLayer(countiesLayer);
 
     layer.setIcon(selectedProjectIcon);
     selectedProjectMarker = layer;
 
-    const a = feature.attributes || feature.properties || {};
-    currentProjectId = a.ProjectID;
+    const p = feature.properties;
+    currentProjectId = p.ProjectID;
 
     showInPanel(`
         <div class="accordion-section">
             <div class="accordion-title" data-key="accordion_project">اطلاعات پروژه</div>
             <div class="accordion-content">
                 <div class="project-info">
-                    <h3>${a["نام پروژه"] || 'نامشخص'}</h3>
-                    <div class="info-item"><span class="info-label" data-key="project_name">نام پروژه:</span><span class="info-value">${a["نام پروژه"]}</span></div>
-                    <div class="info-item"><span class="info-label" data-key="project_type">نوع پروژه:</span><span class="info-value">${a["نوع پروژه (نیاز)"] || 'نامشخص'}</span></div>
-                    <div class="info-item"><span class="info-label" data-key="project_location">محل اجرا:</span><span class="info-value">${a["محل اجرا"] || 'نامشخص'}, ${a.استان || 'نامشخص'}</span></div>
-                    <div class="info-item"><span class="info-label" data-key="project_classes">تعداد کلاس:</span><span class="info-value">${a["تعداد کلاس"] || 'نامشخص'}</span></div>
-                    <div class="info-item"><span class="info-label" data-key="project_area">زیربنا (مترمربع):</span><span class="info-value">${a.زیربنا || 'نامشخص'}</span></div>
-                    <div class="info-item"><span class="info-label" data-key="project_target">هدف جمع‌آوری (USDT):</span><span class="info-value">${a["targetAmount(USDT)"] ? Number(a["targetAmount(USDT)"]).toLocaleString('fa-IR') : 'نامشخص'}</span></div>
-                    <div class="info-item"><span class="info-label" data-key="project_manager">مسئول پروژه:</span><span class="info-value">${a["مسئول پروژه"] || 'نامشخص'}</span></div>
-                    <div class="info-item"><span class="info-label" data-key="project_phone">شماره تماس:</span><span class="info-value">${a["شماره تلفن مسئول پروژه"] || 'نامشخص'}</span></div>
-                    <div class="info-item"><span class="info-label" data-key="project_status">وضعیت پروژه:</span><span class="info-value">${a["وضعیت راهبری پروژه"] || 'در حال اجرا'}</span></div>
+                    <h3>${p["نام پروژه"] || 'نامشخص'}</h3>
+                    <div class="info-item"><span class="info-label" data-key="project_name">نام پروژه:</span><span class="info-value">${p["نام پروژه"] || 'نامشخص'}</span></div>
+                    <div class="info-item"><span class="info-label" data-key="project_type">نوع پروژه:</span><span class="info-value">${p["نوع پروژه (نیاز)"] || 'نامشخص'}</span></div>
+                    <div class="info-item"><span class="info-label" data-key="project_location">محل اجرا:</span><span class="info-value">${p["محل اجرا"] || 'نامشخص'}, ${p.استان || 'نامشخص'}</span></div>
+                    <div class="info-item"><span class="info-label" data-key="project_classes">تعداد کلاس:</span><span class="info-value">${p["تعداد کلاس"] || 'نامشخص'}</span></div>
+                    <div class="info-item"><span class="info-label" data-key="project_area">زیربنا (مترمربع):</span><span class="info-value">${p.زیربنا || 'نامشخص'}</span></div>
+                    <div class="info-item"><span class="info-label" data-key="project_target">هدف جمع‌آوری (USDT):</span><span class="info-value">${p["targetAmount(USDT)"] ? Number(p["targetAmount(USDT)"]).toLocaleString('fa-IR') : 'نامشخص'}</span></div>
+                    <div class="info-item"><span class="info-label" data-key="project_manager">مسئول پروژه:</span><span class="info-value">${p["مسئول پروژه"] || 'نامشخص'}</span></div>
+                    <div class="info-item"><span class="info-label" data-key="project_phone">شماره تماس:</span><span class="info-value">${p["شماره تلفن مسئول پروژه"] || 'نامشخص'}</span></div>
+                    <div class="info-item"><span class="info-label" data-key="project_status">وضعیت پروژه:</span><span class="info-value">${p["وضعیت راهبری پروژه"] || 'در حال اجرا'}</span></div>
                 </div>
             </div>
         </div>
@@ -186,14 +224,12 @@ function onProjectClick(feature, layer) {
     setupAccordion();
 }
 
+// بقیه توابع بدون تغییر (zoomToIran, redirectToDonate, setupAccordion, showInPanel)
 function zoomToIran() {
     map.flyTo([32.4279, 53.6880], 5, { animate: true, duration: 1.5 });
-    if (selectedLayer) provincesLayer.resetStyle(selectedLayer);
-    selectedLayer = null;
-    if (selectedCountyLayer) countiesLayer.resetStyle(selectedCountyLayer);
-    selectedCountyLayer = null;
-    if (selectedProjectMarker) selectedProjectMarker.setIcon(projectIcon);
-    selectedProjectMarker = null;
+    if (selectedLayer) provincesLayer.resetStyle(selectedLayer); selectedLayer = null;
+    if (selectedCountyLayer) countiesLayer.resetStyle(selectedCountyLayer); selectedCountyLayer = null;
+    if (selectedProjectMarker) selectedProjectMarker.setIcon(projectIcon); selectedProjectMarker = null;
     if (map.hasLayer(countiesLayer)) map.removeLayer(countiesLayer);
 
     showInPanel(`
@@ -208,24 +244,19 @@ function zoomToIran() {
 }
 
 function redirectToDonate(projectId) {
-    if (projectId) {
-        window.location.href = `donate.html?project=${projectId}`;
-    } else {
-        alert('پروژه انتخاب نشده است');
-    }
+    if (projectId) window.location.href = `donate.html?project=${projectId}`;
+    else alert('پروژه انتخاب نشده است');
 }
 
 function setupAccordion() {
     document.querySelectorAll('.accordion-title').forEach(title => {
         title.onclick = () => {
             title.classList.toggle('collapsed');
-            const content = title.nextElementSibling;
-            if (content) content.classList.toggle('collapsed');
+            title.nextElementSibling.classList.toggle('collapsed');
         };
     });
 }
 
 function showInPanel(html) {
-    const panelContent = document.getElementById('panelContent');
-    if (panelContent) panelContent.innerHTML = html;
+    document.getElementById('panelContent').innerHTML = html;
 }
