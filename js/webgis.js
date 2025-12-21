@@ -32,9 +32,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // لود داده‌ها
     const [provinces, counties, projects] = await Promise.all([
-        fetch('./data/ir-new.json').then(r => r.json()),
-        fetch('./data/counties.json').then(r => r.json()),
-        fetch('./data/Projects.json').then(r => r.json())
+        fetch('ir-new.json').then(r => r.json()),
+        fetch('counties.json').then(r => r.json()),
+        fetch('Projects.json').then(r => r.json())
     ]);
 
     // لایه استان‌ها
