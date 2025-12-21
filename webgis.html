@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-key="webgis_title">نقشه پروژه‌های آموزشی کلاس‌چین</title>
+
+    <!-- فونت‌ها -->
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;900&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- استایل‌ها -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/webgis.css">
+
+</head>
+<body>
+
+    <!-- سوئیچ زبان -->
+    <div class="lang-switch">
+        <button class="active" data-lang="fa" onclick="setLanguage('fa')">فارسی</button>
+        <button data-lang="en" onclick="setLanguage('en')">English</button>
+    </div>
+
+    <!-- نوار ناوبری (مشابه index) -->
+    <nav class="navbar">
+        <div class="navbar-brand" data-key="brand">کلاس‌چین</div>
+        <div class="nav-links">
+            <a href="index.html">خانه</a>
+            <a href="#" data-key="nav_goals">اهداف پروژه</a>
+            <a href="#" data-key="nav_whitepaper">White Paper</a>
+            <a href="#" data-key="nav_contact">ارتباط با ما</a>
+            <a href="#" data-key="nav_about">درباره ما</a>
+        </div>
+    </nav>
+
+    <div class="webgis-container">
+        <!-- پنل اطلاعات -->
+        <aside class="info-panel" id="infoPanel">
+            <div class="panel-header">
+                <h1 data-key="panel_header_title">نقشه تعاملی پروژه‌های آموزشی ایران</h1>
+                <p data-key="panel_header_desc">با کلیک روی استان، شهرستان یا نشانگر پروژه، جزئیات را ببینید</p>
+            </div>
+
+            <div class="panel-controls">
+                <button id="zoomIranBtn" class="control-btn" data-key="zoom_to_iran">بازگشت به ایران</button>
+                <label>
+                    <span data-key="basemap_label">لایه پایه:</span>
+                    <select id="basemapSelect">
+                        <option value="carto">پیش‌فرض</option>
+                        <option value="persiangis">پرسین‌جی‌آی‌اس</option>
+                        <option value="satellite">ماهواره‌ای</option>
+                        <option value="light">روشن</option>
+                        <option value="osm">OpenStreetMap</option>
+                    </select>
+                </label>
+            </div>
+
+            <div class="panel-content" id="panelContent">
+                <!-- محتوا به صورت داینامیک پر می‌شود -->
+                <div class="no-selection">
+                    <div class="icon">🗺️</div>
+                    <h3 data-key="no_selection_title">یک مورد را انتخاب کنید</h3>
+                    <p data-key="no_selection_desc">روی استان، شهرستان یا پروژه کلیک کنید</p>
+                </div>
+            </div>
+
+            <!-- دکمه مشارکت ثابت (در پایین پنل) -->
+            <div class="fixed-contribute-button" id="fixedContributeBtn">
+                <button onclick="redirectToDonate(currentProjectId)" data-key="contribute_btn">
+                    مشارکت در این پروژه
+                </button>
+            </div>
+        </aside>
+
+        <!-- نقشه -->
+        <div id="map"></div>
+
+        <!-- دکمه شناور برای موبایل -->
+        <button class="fab-toggle" id="fabToggle">ℹ️</button>
+    </div>
+
+    <!-- اسکریپت‌ها -->
+    <script src="js/main.js"></script>
+    <script src="js/webgis.js"></script>
+</body>
+</html>
