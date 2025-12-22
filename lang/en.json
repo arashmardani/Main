@@ -14,30 +14,3 @@
   "lang_fa": "فارسی",
   "lang_en": "English"
 }
-{
-  "webgis_title": "ClassChain Educational Projects Map",
-  "panel_header_title": "Interactive Map of Educational Projects in Iran",
-  "panel_header_desc": "Click on a province, county, or project marker to view details",
-  "no_selection_title": "Select an item",
-  "no_selection_desc": "Click on a province, county, or project",
-  "zoom_to_iran": "Back to Iran",
-  "basemap_label": "Base layer:",
-  "accordion_province": "Province Information",
-  "accordion_county": "County Information",
-  "accordion_project": "Project Details",
-  "accordion_donors": "Recent Donors",
-  "province_population": "Province Population:",
-  "province_capita": "Educational Space Per Capita:",
-  "county_capita": "County Educational Space Per Capita:",
-  "project_name": "Project Name:",
-  "project_type": "Project Type:",
-  "project_location": "Location:",
-  "project_classes": "Number of Classrooms:",
-  "project_area": "Built Area (sqm):",
-  "project_target": "Funding Goal (USDT):",
-  "project_manager": "Project Manager:",
-  "project_phone": "Contact Number:",
-  "project_status": "Project Status:",
-  "contribute_btn": "Contribute to This Project",
-  "no_donors": "Be the first contributor to this school"
-}
